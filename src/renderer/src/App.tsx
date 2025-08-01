@@ -15,8 +15,13 @@ import Router from './Router'
 
 const logger = loggerService.withContext('App.tsx')
 
-function App(): React.ReactElement {
-  logger.info('App initialized')
+interface AppProps {
+  ssoid?: string
+  environmentConfig?: any
+}
+
+function App({ ssoid, environmentConfig }: AppProps): React.ReactElement {
+  logger.info('App initialized', { ssoid, environment: environmentConfig?.name })
 
   return (
     <Provider store={store}>

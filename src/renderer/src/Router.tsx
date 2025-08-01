@@ -1,7 +1,7 @@
 import '@renderer/databases'
 
 import { FC, useMemo } from 'react'
-import { HashRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes, Navigate } from 'react-router-dom'
 
 import Sidebar from './components/app/Sidebar'
 import TabsContainer from './components/Tab/TabContainer'
@@ -16,6 +16,20 @@ import MinAppsPage from './pages/minapps/MinAppsPage'
 import PaintingsRoutePage from './pages/paintings/PaintingsRoutePage'
 import SettingsPage from './pages/settings/SettingsPage'
 import TranslatePage from './pages/translate/TranslatePage'
+
+// SSO回调处理组件
+const SSOCallback: FC = () => {
+  // 处理SSO回调，重定向到首页
+  return <Navigate to="/" replace />
+}
+
+// SSO登出处理组件
+const SSOLogout: FC = () => {
+  // 清除SSO相关信息
+  localStorage.removeItem('ssoid')
+  // 重定向到首页
+  return <Navigate to="/" replace />
+}
 
 const Router: FC = () => {
   const { navbarPosition } = useNavbarPosition()
@@ -32,6 +46,8 @@ const Router: FC = () => {
         <Route path="/apps" element={<MinAppsPage />} />
         <Route path="/settings/*" element={<SettingsPage />} />
         <Route path="/launchpad" element={<LaunchpadPage />} />
+        <Route path="/sso/callback" element={<SSOCallback />} />
+        <Route path="/sso/logout" element={<SSOLogout />} />
       </Routes>
     )
   }, [])
