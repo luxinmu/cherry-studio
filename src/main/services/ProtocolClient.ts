@@ -40,6 +40,10 @@ export function handleProtocolUrl(url: string) {
     case 'providers':
       handleProvidersProtocolUrl(urlObj)
       return
+    case 'sso':
+      // SSO回调处理，直接传递给渲染进程
+      logger.debug('Handling SSO callback:', url)
+      break
   }
 
   // You can send the data to your renderer process

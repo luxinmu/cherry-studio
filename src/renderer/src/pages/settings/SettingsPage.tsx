@@ -12,7 +12,8 @@ import {
   PictureInPicture2,
   Settings2,
   SquareTerminal,
-  TextCursorInput
+  TextCursorInput,
+  UserCheck
 } from 'lucide-react'
 import { FC } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -29,6 +30,7 @@ import ProvidersList from './ProviderSettings'
 import QuickAssistantSettings from './QuickAssistantSettings'
 import SelectionAssistantSettings from './SelectionAssistantSettings/SelectionAssistantSettings'
 import ShortcutSettings from './ShortcutSettings'
+import SSOSettings from './SSOSettings'
 import ToolSettings from './ToolSettings'
 
 const SettingsPage: FC = () => {
@@ -80,6 +82,12 @@ const SettingsPage: FC = () => {
               {t('settings.mcp.title')}
             </MenuItem>
           </MenuItemLink>
+          <MenuItemLink to="/settings/sso">
+            <MenuItem className={isRoute('/settings/sso')}>
+              <UserCheck size={18} />
+              美团SSO设置
+            </MenuItem>
+          </MenuItemLink>
           <MenuItemLink to="/settings/memory">
             <MenuItem className={isRoute('/settings/memory')}>
               <Brain size={18} />
@@ -123,6 +131,7 @@ const SettingsPage: FC = () => {
             <Route path="model" element={<ModelSettings />} />
             <Route path="tool/*" element={<ToolSettings />} />
             <Route path="mcp/*" element={<MCPSettings />} />
+            <Route path="sso" element={<SSOSettings />} />
             <Route path="memory" element={<MemorySettings />} />
             <Route path="general/*" element={<GeneralSettings />} />
             <Route path="display" element={<DisplaySettings />} />

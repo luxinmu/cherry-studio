@@ -1,0 +1,21 @@
+{
+  "enabled": false,
+  "clientId": "",
+  "secret": "",
+  "accessEnv": "product",
+  "loginUrl": "https://ssosv.sankuai.com",
+  "_comment": {
+    "description": "Cherry Studio 美团SSO配置文件示例",
+    "usage": "复制此文件到用户配置目录下的 sso-config.json 并填入实际值",
+    "configPath": "~/.config/cherry-studio/sso-config.json (Linux/macOS) 或 %APPDATA%/cherry-studio/sso-config.json (Windows)",
+    "fields": {
+      "enabled": "是否启用SSO功能",
+      "clientId": "从美团企业开放平台获取的Client ID",
+      "secret": "从美团企业开放平台获取的Client Secret",
+      "accessEnv": "访问环境，可选值：product（生产环境）、test（测试环境）",
+      "loginUrl": "SSO登录服务地址，通常不需要修改"
+    },
+    "priority": "环境变量 > 配置文件 > 默认值",
+    "security": "配置文件中的敏感信息会被加密存储，请妥善保管"
+  }
+}

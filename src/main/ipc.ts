@@ -35,6 +35,7 @@ import { FileServiceManager } from './services/remotefile/FileServiceManager'
 import { searchService } from './services/SearchService'
 import { SelectionService } from './services/SelectionService'
 import { registerShortcuts, unregisterAllShortcuts } from './services/ShortcutService'
+import SSOService from './services/SSOService'
 import {
   addEndMessage,
   addStreamMessage,
@@ -635,6 +636,18 @@ export function registerIpc(mainWindow: BrowserWindow, app: Electron.App) {
   ipcMain.handle(IpcChannel.Nutstore_GetDirectoryContents, (_, token: string, path: string) =>
     NutstoreService.getDirectoryContents(token, path)
   )
+
+  // SSO
+  ipcMain.handle(IpcChannel.SSO_IsEnabled, () => SSOService.isEnabled())
+  ipcMain.handle(IpcChannel.SSO_IsLoggedIn, () => SSOService.isLoggedIn())
+  ipcMain.handle(IpcChannel.SSO_GetUserInfo, () => SSOService.getUserInfo())
+  ipcMain.handle(IpcChannel.SSO_StartLogin, () => SSOService.startLogin())
+  ipcMain.handle(IpcChannel.SSO_HandleCallback, (_, code: string) => SSOService.handleCallback(code))
+  ipcMain.handle(IpcChannel.SSO_Logout, () => SSOService.logout())
+  ipcMain.handle(IpcChannel.SSO_GetConfig, () => SSOService.getConfig())
+  ipcMain.handle(IpcChannel.SSO_UpdateConfig, (_, config: any) => SSOService.updateConfig(config))
+  ipcMain.handle(IpcChannel.SSO_ValidateConfig, () => SSOService.validateConfig())
+  ipcMain.handle(IpcChannel.SSO_GetConfigStatus, () => SSOService.getConfigStatus())
 
   // search window
   ipcMain.handle(IpcChannel.SearchWindow_Open, async (_, uid: string) => {

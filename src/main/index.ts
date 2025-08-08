@@ -138,9 +138,17 @@ if (!app.requestSingleInstanceLock()) {
     await setupAppImageDeepLink()
 
     if (isDev) {
-      installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS])
-        .then((name) => logger.info(`Added Extension:  ${name}`))
-        .catch((err) => logger.error('An error occurred: ', err))
+      try {
+        await installExtension([REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS], {
+          loadExtensionOptions: {
+            allowFileAccess: true
+          }
+        })
+        logger.info('Development extensions loaded successfully')
+      } catch (err) {
+        logger.warn('Failed to load development extensions:', err as Error)
+        // 不阻塞应用启动
+      }
     }
 
     //start selection assistant service

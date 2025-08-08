@@ -39,6 +39,7 @@ import DxtService from './DxtService'
 import { CallBackServer } from './mcp/oauth/callback'
 import { McpOAuthClientProvider } from './mcp/oauth/provider'
 import getLoginShellEnvironment from './mcp/shell-env'
+import SSOService from './SSOService'
 import { windowService } from './WindowService'
 
 // Generic type for caching wrapped functions
@@ -179,19 +180,29 @@ class McpService {
             return clientTransport
           } else if (server.baseUrl) {
             if (server.type === 'streamableHttp') {
+              // 合并SSO认证头和服务器自定义头
+              const ssoHeaders = await SSOService.getMCPAuthHeaders()
+              const mergedHeaders = { ...ssoHeaders, ...(server.headers || {}) }
+
               const options: StreamableHTTPClientTransportOptions = {
                 requestInit: {
-                  headers: server.headers || {}
+                  headers: mergedHeaders
                 },
                 authProvider
               }
               logger.debug(`StreamableHTTPClientTransport options:`, options)
               return new StreamableHTTPClientTransport(new URL(server.baseUrl!), options)
             } else if (server.type === 'sse') {
+              // 合并SSO认证头和服务器自定义头
+              const ssoHeaders = await SSOService.getMCPAuthHeaders()
+              const mergedHeaders = { ...ssoHeaders, ...(server.headers || {}) }
+
               const options: SSEClientTransportOptions = {
                 eventSourceInit: {
                   fetch: async (url, init) => {
-                    const headers = { ...(server.headers || {}), ...(init?.headers || {}) }
+                    // 每次请求时重新获取最新的SSO认证头
+                    const latestSsoHeaders = await SSOService.getMCPAuthHeaders()
+                    const headers = { ...latestSsoHeaders, ...mergedHeaders, ...(init?.headers || {}) }
 
                     // Get tokens from authProvider to make sure using the latest tokens
                     if (authProvider && typeof authProvider.tokens === 'function') {
@@ -209,7 +220,7 @@ class McpService {
                   }
                 },
                 requestInit: {
-                  headers: server.headers || {}
+                  headers: mergedHeaders
                 },
                 authProvider
               }

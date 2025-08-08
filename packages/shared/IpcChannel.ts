@@ -102,6 +102,18 @@ export enum IpcChannel {
   Nutstore_DecryptToken = 'nutstore:decrypt-token',
   Nutstore_GetDirectoryContents = 'nutstore:get-directory-contents',
 
+  // SSO
+  SSO_IsEnabled = 'sso:is-enabled',
+  SSO_IsLoggedIn = 'sso:is-logged-in',
+  SSO_GetUserInfo = 'sso:get-user-info',
+  SSO_StartLogin = 'sso:start-login',
+  SSO_HandleCallback = 'sso:handle-callback',
+  SSO_Logout = 'sso:logout',
+  SSO_GetConfig = 'sso:get-config',
+  SSO_UpdateConfig = 'sso:update-config',
+  SSO_ValidateConfig = 'sso:validate-config',
+  SSO_GetConfigStatus = 'sso:get-config-status',
+
   //aes
   Aes_Encrypt = 'aes:encrypt',
   Aes_Decrypt = 'aes:decrypt',

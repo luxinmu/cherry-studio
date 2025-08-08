@@ -335,6 +335,18 @@ const api = {
     getDirectoryContents: (token: string, path: string) =>
       ipcRenderer.invoke(IpcChannel.Nutstore_GetDirectoryContents, token, path)
   },
+  sso: {
+    isEnabled: () => ipcRenderer.invoke(IpcChannel.SSO_IsEnabled),
+    isLoggedIn: () => ipcRenderer.invoke(IpcChannel.SSO_IsLoggedIn),
+    getUserInfo: () => ipcRenderer.invoke(IpcChannel.SSO_GetUserInfo),
+    startLogin: () => ipcRenderer.invoke(IpcChannel.SSO_StartLogin),
+    handleCallback: (code: string) => ipcRenderer.invoke(IpcChannel.SSO_HandleCallback, code),
+    logout: () => ipcRenderer.invoke(IpcChannel.SSO_Logout),
+    getConfig: () => ipcRenderer.invoke(IpcChannel.SSO_GetConfig),
+    updateConfig: (config: any) => ipcRenderer.invoke(IpcChannel.SSO_UpdateConfig, config),
+    validateConfig: () => ipcRenderer.invoke(IpcChannel.SSO_ValidateConfig),
+    getConfigStatus: () => ipcRenderer.invoke(IpcChannel.SSO_GetConfigStatus)
+  },
   searchService: {
     openSearchWindow: (uid: string) => ipcRenderer.invoke(IpcChannel.SearchWindow_Open, uid),
     closeSearchWindow: (uid: string) => ipcRenderer.invoke(IpcChannel.SearchWindow_Close, uid),
